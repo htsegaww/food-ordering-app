@@ -7,6 +7,12 @@ import { signOut } from "next-auth/react";
 export default function Header() {
   const session = useSession();
   const status = session.status;
+  let userName =
+    session.data?.user?.name || session.data?.user?.email?.split("@")[0];
+  // Remove last name if exists
+  if (userName?.includes(" ")) {
+    userName = userName.split(" ")[0];
+  }
   return (
     <header className="flex items-center justify-between">
       <nav className="flex items-center gap-8 text-primary/90">
@@ -20,12 +26,17 @@ export default function Header() {
       </nav>
 
       {status === "authenticated" && (
-        <Button
-          onClick={() => signOut()}
-          className="bg-primary text-white px-5 py-1 rounded-md"
-        >
-          Logout
-        </Button>
+        <div className="flex items-center gap-4">
+          <Link href="/profile" className="text-primary/90">
+            Hello, {userName}
+          </Link>
+          <Button
+            onClick={() => signOut()}
+            className="bg-primary text-white px-5 py-1 rounded-md"
+          >
+            Logout
+          </Button>
+        </div>
       )}
 
       {status === "unauthenticated" && (

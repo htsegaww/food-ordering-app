@@ -5,8 +5,7 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 
 import AppProvider from "@/components/AppContext";
-import { Toaster } from "sonner";
-
+import { Toaster } from "react-hot-toast";
 const roboto = Roboto({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
 export const metadata: Metadata = {
@@ -24,14 +23,13 @@ export default function RootLayout({
       <body className={roboto.className}>
         <main className="max-w-4xl mx-auto p-4">
           <AppProvider>
+            <Toaster />
             <Header />
 
             {children}
             <Footer />
           </AppProvider>
         </main>
-
-        <Toaster position="bottom-right" richColors />
       </body>
     </html>
   );

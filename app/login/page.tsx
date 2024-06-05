@@ -4,15 +4,15 @@ import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
-import { toast } from "sonner";
+import { useState } from "react";
+// import { toast } from "sonner";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginProgress, setLoginProgress] = useState(false);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoginProgress(true);
     await signIn("credentials", { email, password, callbackUrl: "/" });

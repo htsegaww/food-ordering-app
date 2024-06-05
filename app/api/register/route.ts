@@ -11,6 +11,16 @@ export async function POST(req: Request) {
     return new NextResponse("Email and password are required", { status: 400 });
   }
 
+  const pass = body.password;
+  if (!pass?.length || pass.length < 5) {
+    new Error("Pass must be at least 5 characters long");
+  }
+
+  const notHashedPassword = pass;
+  const salt = bcrypt.genSaltSync(10);
+  const hashedPassword = bcrypt.hashSync(notHashedPassword, salt);
+  body.password = hashedPassword;
+
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     return new NextResponse("User already exists", { status: 400 });
