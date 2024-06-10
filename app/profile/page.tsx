@@ -1,6 +1,8 @@
 "use client";
 
+import EditableImage from "@/components/layout/EditableImage";
 import Loading from "@/components/layout/Loading";
+import UserTabs from "@/components/layout/UserTabs";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +23,8 @@ export default function Profile() {
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
+  const [profileFetched, setProfileFetched] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const { status } = session;
 
@@ -36,6 +40,8 @@ export default function Profile() {
           setPostalCode(data.postalCode || "");
           setCity(data.city || "");
           setCountry(data.country || "");
+          setIsAdmin(data.admin || false);
+          setProfileFetched(true);
         });
     }
   }, [session, status]);
@@ -76,59 +82,7 @@ export default function Profile() {
     });
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const files = e.target.files;
-    // console.log(files);
-    if (files?.length === 1) {
-      const data = new FormData();
-      data.set("file", files[0]);
-
-      const uploadPromise = fetch("api/upload", {
-        method: "POST",
-        body: data,
-      }).then(async (response) => {
-        if (response.ok) {
-          const link = await response.json();
-          setImage(link);
-        }
-        throw new Error("Failed to upload image");
-      });
-
-      await toast.promise(uploadPromise, {
-        loading: "Uploading...",
-        success: "Image uploaded successfully",
-        error: "Failed to upload image",
-      });
-    }
-  };
-
-  /*
-      !another way
-
-      const uploadPromise = new Promise(async (resolve, reject) => {
-        const response = await fetch("/api/upload", {
-          method: "POST",
-          body: data,
-        });
-
-        if (response.ok) {
-          const url = await response.json();
-          setImage(url);
-          resolve(url);
-        } else {
-          reject(response.json());
-        }
-      });
-      await toast.promise(uploadPromise, {
-        loading: "Uploading...",
-        success: "Image uploaded successfully",
-        error: "Failed to upload image",
-      });
-
-      */
-
-  if (status === "loading") {
+  if (status === "loading" || !profileFetched) {
     return <Loading />;
   }
 
@@ -149,32 +103,14 @@ export default function Profile() {
   }
   return (
     <section className="mt-8">
-      <h1 className="text-4xl font-semibold text-center mb-4">Profile</h1>
+      <h1 className="text-4xl font-semibold text-center mb-8">Profile</h1>
 
+      <UserTabs isAdmin={isAdmin} />
       <div className="max-w-md mx-auto">
         <div className="flex gap-4 items-center">
           <div>
             <div className="p-2 rounded-lg relative max-w-[120px]">
-              {image && (
-                <Image
-                  src={image}
-                  alt="profile"
-                  width={250}
-                  height={250}
-                  className="rounded-lg w-full h-full"
-                />
-              )}
-
-              <label>
-                <Input
-                  type="file"
-                  className="hidden"
-                  onChange={handleFileChange}
-                />
-                <span className="block border rounded-lg p-2 text-center cursor-pointer border-gray-300">
-                  Edit
-                </span>
-              </label>
+              <EditableImage link={image} setLink={setImage} />
             </div>
           </div>
           <form
@@ -197,7 +133,9 @@ export default function Profile() {
               disabled={true}
               value={session.data?.user?.email!}
             />
-            <Label>Phone Number</Label>
+            <Label className="text-gray-500 text-sm leading-tight">
+              Phone Number
+            </Label>
 
             <Input
               type="tel"

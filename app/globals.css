@@ -62,3 +62,10 @@ section.hero {
   @apply grid;
   grid-template-columns: 0.4fr 0.6fr;
 }
+
+div.tabs > * {
+  @apply bg-gray-300 text-gray-700 rounded-lg py-2 px-4;
+}
+div.tabs > *.active {
+  @apply bg-primary text-primary-foreground;
+}

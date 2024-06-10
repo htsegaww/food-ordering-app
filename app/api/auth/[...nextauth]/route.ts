@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import NextAuth from "next-auth";
-import { User } from "@/app/models/User";
+import { User } from "@/models/User";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import GoogleProvider from "next-auth/providers/google";
