@@ -107,7 +107,11 @@ export default function Profile() {
 
       <UserTabs isAdmin={isAdmin} />
       <div className="max-w-md mx-auto">
-        <div className="flex gap-4 items-center">
+        <div
+          className="flex md:grid items-start gap-4"
+          // className="md:grid items-start gap-4"
+          style={{ gridTemplateColumns: ".3fr .7fr" }}
+        >
           <div>
             <div className="p-2 rounded-lg relative max-w-[120px]">
               <EditableImage link={image} setLink={setImage} />

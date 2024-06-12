@@ -26,6 +26,12 @@ export default function UserTabs({ isAdmin }: { isAdmin: boolean }) {
           <Link className={pathname === "/users" ? "active" : ""} href="/users">
             Users
           </Link>
+          <Link
+            className={pathname === "/orders" ? "active" : ""}
+            href="/orders"
+          >
+            Orders
+          </Link>
         </>
       )}
     </div>

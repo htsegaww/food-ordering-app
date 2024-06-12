@@ -8,13 +8,21 @@ export async function POST(req: Request) {
   const menuItem = await MenuItem.create(data);
   return Response.json(menuItem);
 }
+export async function PUT(req: Request) {
+  mongoose.connect(process.env.MONGO_URL!);
+  const { _id, ...data } = await req.json();
+  return Response.json(await MenuItem.findByIdAndUpdate(_id, data));
+}
 
-// This function is called when a POST request is made to /api/menu-items
-// It should save the menu item to the database and return the saved menu item
-// The request body will contain the menu item data
-// The menu item data will be an object with the following properties:
-// - image: string
-// - name: string
-// - description: string
-// - basePrice: string
-// The function should return the saved menu item
+export async function GET() {
+  mongoose.connect(process.env.MONGO_URL!);
+  return Response.json(await MenuItem.find());
+}
+
+export async function DELETE(req: Request) {
+  mongoose.connect(process.env.MONGO_URL!);
+  const url = new URL(req.url);
+  const _id = url.searchParams.get("_id");
+  await MenuItem.deleteOne({ _id });
+  return Response.json(true);
+}

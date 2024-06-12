@@ -1,11 +1,13 @@
 "use client";
 
+import DeleteButton from "@/components/DeleteButton";
 import UseProfile from "@/components/UseProfile";
 import Loading from "@/components/layout/Loading";
 import UserTabs from "@/components/layout/UserTabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -89,6 +91,27 @@ export default function Categories() {
     toast.error("You are not authorized to view this page");
   }
 
+  async function DeleteCategory(_id: string | number) {
+    const deletePromise = new Promise(async (resolve, reject) => {
+      const response = await fetch("/api/categories?_id=" + _id, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        resolve(response);
+      } else {
+        reject();
+      }
+    });
+
+    await toast.promise(deletePromise, {
+      loading: "Deleting category...",
+      success: "Category deleted successfully",
+      error: "Failed to delete category",
+    });
+
+    fetchCategories();
+  }
+
   return (
     <div className="mt-8 max-w-lg mx-auto">
       <UserTabs isAdmin={true} />
@@ -105,34 +128,50 @@ export default function Categories() {
             value={categoryName}
             onChange={(e) => setCategoryName(e.target.value)}
           />
-          <div>
-            <Button type="submit" className="px-6">
+          <div className="flex gap-2">
+            <Button type="submit" className="px-6 bg-primary text-white">
               {editedCategory ? "Update" : "Create"}
+            </Button>
+
+            <Button
+              className="px-6 bg-primary text-white"
+              type="button"
+              onClick={() => {
+                setEditedCategory(null);
+                setCategoryName("");
+              }}
+            >
+              Cancel
             </Button>
           </div>
         </div>
       </form>
       <div>
-        <h2 className="text-sm text-gray-500 mt-8">Edit Category</h2>
+        <h2 className="text-sm text-gray-500 mt-8">Existing Category</h2>
         <ul>
           {categories?.length > 0 &&
             categories.map((category) => (
               <div
                 key={category._id}
-                className="bg-gray-100 rounded-xl p-2 px-4 flex gap-1 mb-1 items-center"
+                className="border bg-gray-100 rounded-xl p-2 px-4 flex gap-1 mb-1 items-center"
               >
                 <div className="grow">{category.name}</div>
-                <div>
+                <div className="flex gap-1 ">
                   <Button
                     type="button"
-                    className="flex cursor-pointer mb-1 w-full"
+                    className="flex cursor-pointer mb-1 w-full text-black border"
                     onClick={() => {
                       setEditedCategory(category);
                       setCategoryName(category.name);
                     }}
                   >
-                    Update
+                    Edit
                   </Button>
+
+                  <DeleteButton
+                    label={"Delete"}
+                    onDelete={() => DeleteCategory(category._id)}
+                  />
                 </div>
               </div>
             ))}
