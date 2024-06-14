@@ -54,7 +54,7 @@ export default function EditableImage({ link, setLink }: EditableImageProps) {
       )}
       <label>
         <Input type="file" className="hidden" onChange={handleFileChange} />
-        <span className="block border rounded-lg p-2 text-center cursor-pointer border-gray-300">
+        <span className="block border rounded-lg py-2 px-14 text-center cursor-pointer border-gray-300 mt-2 ">
           Edit
         </span>
       </label>

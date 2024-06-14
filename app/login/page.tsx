@@ -5,19 +5,20 @@ import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-// import { toast } from "sonner";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginProgress, setLoginProgress] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoginProgress(true);
+
     await signIn("credentials", { email, password, callbackUrl: "/" });
+
     setLoginProgress(false);
-  };
+  }
   return (
     <section className="mt-8">
       <h1 className="text-4xl font-semibold text-center mb-4">Login</h1>
@@ -29,6 +30,7 @@ export default function Login() {
         <Input
           type="email"
           placeholder="Email"
+          name="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={loginProgress}
@@ -37,6 +39,7 @@ export default function Login() {
         <Input
           type="password"
           placeholder="Password"
+          name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           disabled={loginProgress}
@@ -45,7 +48,7 @@ export default function Login() {
 
         <Button
           type="submit"
-          className="disabled:opacity-50"
+          className="disabled:opacity-50 text-white bg-primary"
           disabled={loginProgress}
         >
           Login

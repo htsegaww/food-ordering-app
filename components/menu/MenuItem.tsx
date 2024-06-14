@@ -1,12 +1,15 @@
+import Image from "next/image";
 import { Button } from "../ui/button";
 
 export default function MenuItem() {
   return (
     <div className="bg-gray-200 p-4 rounded-lg text-center hover:bg-white transition-all hover:shadow-md hover:shadow-black/25">
       <div className=" text-center">
-        <img
+        <Image
           src="/hero.png"
           alt=""
+          width="300"
+          height="300"
           className="max-h-auto max-h-24 block mx-auto"
         />
       </div>

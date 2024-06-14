@@ -25,7 +25,13 @@ export default function Hero() {
         </div>
       </div>
       <div className="relative">
-        <Image src="/hero.png" alt="injera" layout="fill" objectFit="contain" />
+        <Image
+          src="/hero.png"
+          alt="injera"
+          width="300"
+          height="300"
+          objectFit="contain"
+        />
       </div>
     </section>
   );

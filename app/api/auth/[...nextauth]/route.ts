@@ -19,7 +19,7 @@ export const authOptions = {
     }),
 
     CredentialsProvider({
-      name: "credentials",
+      name: "Credentials",
       id: "credentials",
 
       credentials: {
@@ -44,16 +44,7 @@ export const authOptions = {
       },
     }),
   ],
-  // session: {
-  //   strategy: "jwt",
-  // },
-  debug: process.env.NODE_ENV === "development",
 };
-const handler = NextAuth({
-  ...authOptions,
-  session: {
-    strategy: undefined,
-  },
-});
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

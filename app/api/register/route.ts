@@ -1,7 +1,7 @@
-import { User } from "@/app/models/User";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { User } from "@/models/User";
 export async function POST(req: Request) {
   const body = await req.json();
   const { email, password } = body;

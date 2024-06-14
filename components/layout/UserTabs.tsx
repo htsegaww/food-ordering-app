@@ -23,7 +23,10 @@ export default function UserTabs({ isAdmin }: { isAdmin: boolean }) {
           >
             Menu Items
           </Link>
-          <Link className={pathname === "/users" ? "active" : ""} href="/users">
+          <Link
+            className={pathname.includes("/users") ? "active" : ""}
+            href="/users"
+          >
             Users
           </Link>
           <Link

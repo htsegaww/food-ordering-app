@@ -52,9 +52,7 @@ const Register = () => {
   };
   return (
     <section className="mt-8">
-      <h1 className="text-center text-primary text-4xl font-semibold">
-        Register
-      </h1>
+      <h1 className="text-center  text-4xl font-semibold">Register</h1>
 
       <form
         className="flex flex-col gap-2 mt-6 max-w-md mx-auto"
@@ -79,7 +77,7 @@ const Register = () => {
         <Button
           type="submit"
           disabled={creatingUser}
-          className="disabled:opacity-50"
+          className="disabled:opacity-50 text-white bg-primary"
         >
           Register
         </Button>

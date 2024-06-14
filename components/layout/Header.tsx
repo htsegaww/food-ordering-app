@@ -6,9 +6,12 @@ import { Button } from "@/components/ui/button";
 import { signOut } from "next-auth/react";
 export default function Header() {
   const session = useSession();
-  const status = session.status;
-  let userName =
-    session.data?.user?.name || session.data?.user?.email?.split("@")[0];
+  console.log(session);
+  const status = session?.status;
+  const userData = session.data?.user;
+  let userName = userData?.name || userData?.email;
+  // let userName =
+  // session.data?.user?.name || session.data?.user?.email?.split("@")[0];
   // Remove last name if exists
   if (userName?.includes(" ")) {
     userName = userName.split(" ")[0];
