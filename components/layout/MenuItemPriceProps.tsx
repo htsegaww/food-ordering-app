@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export interface Size {
   name: string;
-  price: number | string;
+  price: number;
 }
 
 interface MenuItemPriceProps {
@@ -16,13 +16,14 @@ interface MenuItemPriceProps {
   addLabel: string;
 }
 
-export default function MenuItemPrice({
-  props,
-  setProps,
+export default function MenuItemPriceProps({
   name,
   addLabel,
+  props,
+  setProps,
 }: MenuItemPriceProps) {
   const [isOpen, setIsOpen] = useState(false);
+
   function addProp() {
     setProps((oldProps) => {
       return [...oldProps, { name: "", price: 0 }];

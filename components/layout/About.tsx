@@ -2,7 +2,7 @@ import SectionHeaders from "./SectionHeaders";
 
 export default function About() {
   return (
-    <section className="text-center my-16">
+    <section className="text-center my-16" id="about">
       <SectionHeaders subHeader="Our Story" mainHeader="About Us" />
 
       <div className="text-gray-500 max-w-4xl mx-auto flex flex-col gap-4 py-6">

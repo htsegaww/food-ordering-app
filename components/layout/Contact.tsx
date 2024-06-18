@@ -2,7 +2,7 @@ import SectionHeaders from "./SectionHeaders";
 
 export default function Contact() {
   return (
-    <section>
+    <section id="contact">
       <SectionHeaders subHeader="Get in touch" mainHeader="Contact Us" />
 
       <div className="mt-8">

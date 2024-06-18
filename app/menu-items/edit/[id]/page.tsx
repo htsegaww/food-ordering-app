@@ -1,5 +1,5 @@
 "use client";
-import UseProfile from "@/components/UseProfile";
+import UseProfile from "@/components/useProfile";
 import Loading from "@/components/layout/Loading";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -58,17 +58,6 @@ export default function EditMenuItem() {
 
     setRedirectToItems(true);
   }
-  if (redirectToItems) {
-    return redirect("/menu-items");
-  }
-
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (!data?.admin) {
-    toast.error("You are not authorized to view this page");
-  }
 
   async function DeleteMenuItem() {
     const deletePromise = new Promise(async (resolve, reject) => {
@@ -88,6 +77,18 @@ export default function EditMenuItem() {
     });
 
     setRedirectToItems(true);
+  }
+
+  if (redirectToItems) {
+    return redirect("/menu-items");
+  }
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (!data?.admin) {
+    toast.error("You are not authorized to view this page");
   }
 
   return (

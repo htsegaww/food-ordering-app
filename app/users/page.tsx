@@ -1,5 +1,5 @@
 "use client";
-import UseProfile from "@/components/UseProfile";
+import UseProfile from "@/components/useProfile";
 import Loading from "@/components/layout/Loading";
 import UserTabs from "@/components/layout/UserTabs";
 import { Button } from "@/components/ui/button";

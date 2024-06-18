@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import EditableImage from "@/components/layout/EditableImage";
-import { Button } from "@/components/ui/button";
-import MenuItemPriceProps, { Size } from "./MenuItemPriceProps";
+import MenuItemPriceProps, {
+  Size,
+} from "@/components/layout/MenuItemPriceProps";
+import { useEffect, useState } from "react";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
 
 interface MenuItem {
   name: string;
@@ -53,19 +54,6 @@ export default function MenuItemForm({
 
   const [category, setCategory] = useState(menuItem?.category || "");
   const [categories, setCategories] = useState<Category[]>([]);
-
-  useEffect(() => {
-    if (menuItem) {
-      setImage(menuItem.image);
-      setName(menuItem.name);
-      setDescription(menuItem.description);
-      setBasePrice(menuItem.basePrice);
-      setSizes(menuItem.sizes);
-      setExtraGradientPrices(menuItem.extraGradientPrices);
-      setCategory(menuItem.category);
-    }
-  }, [menuItem]);
-
   useEffect(() => {
     fetch("/api/categories").then((res) => {
       res.json().then((categories) => {
@@ -76,9 +64,8 @@ export default function MenuItemForm({
 
   return (
     <form
-      className="mt-8 max-w-2xl mx-auto"
-      onSubmit={(e) =>
-        onSubmit(e, {
+      onSubmit={(ev) =>
+        onSubmit(ev, {
           image,
           name,
           description,
@@ -88,69 +75,60 @@ export default function MenuItemForm({
           category,
         })
       }
+      className="mt-8 max-w-2xl mx-auto"
     >
       <div
         className="md:grid items-start gap-4"
         style={{ gridTemplateColumns: ".3fr .7fr" }}
       >
-        <div className="max-w-[200px]">
+        <div>
           <EditableImage link={image} setLink={setImage} />
         </div>
-        <div className="grow ">
-          <Label className="text-gray-500">Item name</Label>
+        <div className="grow flex flex-col gap-2">
+          <Label>Item name</Label>
           <Input
             type="text"
             value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="border-gray-200 bg-gray-100"
+            onChange={(ev) => setName(ev.target.value)}
           />
-          <Label className="text-gray-500">Description</Label>
+          <label>Description</label>
           <Input
             type="text"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="border-gray-200 bg-gray-100"
+            onChange={(ev) => setDescription(ev.target.value)}
           />
-
-          <Label>Category</Label>
+          <label>Category</label>
           <select
-            className=" w-full mb-2 rounded-xl border p-2 border-gray-200 bg-gray-100 text-black"
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(ev) => setCategory(ev.target.value)}
+            className=" w-full mb-2 rounded-xl border p-2 border-gray-200 bg-gray-100 text-black"
           >
             {categories?.length > 0 &&
-              categories.map((category) => (
-                <option value={category._id} key={category._id}>
-                  {category.name}
+              categories.map((c) => (
+                <option key={c._id} value={c._id}>
+                  {c.name}
                 </option>
               ))}
           </select>
-
-          <Label className="text-gray-500">Base Price</Label>
+          <Label>Base price</Label>
           <Input
             type="text"
             value={basePrice}
-            onChange={(e) => setBasePrice(e.target.value)}
-            className="border-gray-200 bg-gray-100"
+            onChange={(ev) => setBasePrice(ev.target.value)}
           />
-
           <MenuItemPriceProps
             name={"Sizes"}
-            addLabel={"Add Item Size"}
+            addLabel={"Add item size"}
             props={sizes}
             setProps={setSizes}
           />
-
           <MenuItemPriceProps
-            name={"Extra Gradients"}
-            addLabel={"Add Ingredient Prices"}
+            name={"Extra ingredients"}
+            addLabel={"Add ingredients prices"}
             props={extraGradientPrices}
             setProps={setExtraGradientPrices}
           />
-
-          <Button type="submit" className="w-full mt-4 bg-primary">
-            Save
-          </Button>
+          <button type="submit">Save</button>
         </div>
       </div>
     </form>

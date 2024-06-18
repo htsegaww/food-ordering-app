@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function UseProfile() {
+export default function useProfile() {
   const [data, setData] = useState<{ admin: boolean } | null>(null);
 
   const [loading, setLoading] = useState(true);
