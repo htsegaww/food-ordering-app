@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 import UseProfile from "../useProfile";
+import AddressInputs from "./AddressInputs";
 
 interface User {
   name: string;
@@ -36,6 +37,13 @@ export default function UserForm({ user, onSave }: UserFormProps) {
   const [admin, setAdmin] = useState(user?.admin || false);
   const { data: loggedInUser } = UseProfile();
 
+  function handleAddressChange(propName: string, value: string) {
+    if (propName === "city") setCity(value);
+    if (propName === "country") setCountry(value);
+    if (propName === "phone") setPhone(value);
+    if (propName === "postalCode") setPostalCode(value);
+    if (propName === "streetAddress") setStreetAddress(value);
+  }
   return (
     <section className="mt-8">
       <div className="flex gap-4 mt-8 max-w-2xl mx-auto ">
@@ -44,7 +52,6 @@ export default function UserForm({ user, onSave }: UserFormProps) {
         </div>
 
         <form
-          className=" "
           onSubmit={(e) => {
             e.preventDefault();
             onSave({
@@ -71,58 +78,16 @@ export default function UserForm({ user, onSave }: UserFormProps) {
           />
           <Label className="text-gray-500 text-sm leading-tight">Email</Label>
           <Input type="email" disabled={true} value={user?.email || ""} />
-          <Label className="text-gray-500 text-sm leading-tight">
-            Phone Number
-          </Label>
-          <Input
-            type="tel"
-            placeholder="Phone Number"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+          <AddressInputs
+            addressProps={{
+              phone,
+              streetAddress,
+              postalCode,
+              city,
+              country,
+            }}
+            setAddressProp={handleAddressChange}
           />
-          <Label className="text-gray-500 text-sm leading-tight">
-            Street Address
-          </Label>
-          <Input
-            type="text"
-            placeholder="Street address"
-            value={streetAddress}
-            onChange={(e) => setStreetAddress(e.target.value)}
-          />
-          <div className="flex gap-2">
-            <div className="">
-              <Label className="text-gray-500 text-sm leading-tight">
-                Postal Code
-              </Label>
-              <Input
-                type="text"
-                placeholder="Postal Code"
-                value={postalCode}
-                onChange={(e) => setPostalCode(e.target.value)}
-              />
-            </div>
-            <div>
-              <Label className="text-gray-500 text-sm leading-tight">
-                City
-              </Label>
-              <Input
-                type="text"
-                placeholder="City"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-              />
-            </div>
-          </div>
-          <Label className="text-gray-500 text-sm leading-tight">Country</Label>
-          <Input
-            type="text"
-            placeholder="Country"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-          />
-
-          {/* Only show the admin checkbox if the logged in user is an admin */}
-
           {loggedInUser?.admin && (
             <div>
               <label
@@ -142,7 +107,6 @@ export default function UserForm({ user, onSave }: UserFormProps) {
               </label>
             </div>
           )}
-
           <Button type="submit" className="bg-primary text-white w-full">
             Save
           </Button>

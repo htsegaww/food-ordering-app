@@ -14,6 +14,7 @@ export interface ExtraGradient {
 }
 
 interface MenuItemProps {
+  _id: string;
   image: string;
   name: string;
   description: string;
@@ -22,51 +23,39 @@ interface MenuItemProps {
   extraGradientPrices: ExtraGradient[];
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({
-  image,
-  name,
-  description,
-  basePrice,
-  sizes,
-  extraGradientPrices,
-}) => {
-  const menuItem: CartProduct = {
-    image,
-    name,
-    description,
-    basePrice,
-    sizes: sizes.map((size) => size.name),
-    extraGradientPrices,
-  };
+const MenuItem: React.FC<MenuItemProps> = (menuItem) => {
+  const { image, name, description, basePrice, sizes, extraGradientPrices } =
+    menuItem;
   const [selectedSize, setSelectedSize] = useState<Size | null>(
     sizes?.[0] || null
   );
   const [selectedExtras, setSelectedExtras] = useState<ExtraGradient[]>([]);
   const [showPopup, setShowPopup] = useState(false);
-  const { addToCart }: CartContextProps = useContext(CartContext);
+  const { addToCart } = useContext<CartContextProps>(CartContext);
 
-  function handleAddToCart() {
+  const handleAddToCart = () => {
     const hasOptions = sizes.length > 0 || extraGradientPrices.length > 0;
     if (hasOptions && !showPopup) {
       setShowPopup(true);
       return;
     }
 
-    addToCart(menuItem, selectedSize?.name, selectedExtras);
+    addToCart(menuItem, selectedSize, selectedExtras);
     setShowPopup(false);
     toast.success("Item added to cart");
-  }
-  function handleExtraGradientChange(
-    e: React.MouseEvent<HTMLInputElement, MouseEvent>,
-    extra: any
-  ) {
-    const checked = e.currentTarget.checked;
+  };
+
+  const handleExtraGradientChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    extra: ExtraGradient
+  ) => {
+    const checked = e.target.checked;
     if (checked) {
       setSelectedExtras((prev) => [...prev, extra]);
     } else {
       setSelectedExtras((prev) => prev.filter((ex) => ex.name !== extra.name));
     }
-  }
+  };
 
   let selectedPrice = basePrice;
 
@@ -109,7 +98,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
                 {description}
               </p>
               {sizes?.length > 0 && (
-                <div className=" rounded-md p-2">
+                <div className="rounded-md p-2">
                   <h3 className="text-center text-gray-700">Pick your size</h3>
 
                   {sizes.map((size) => (
@@ -143,7 +132,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
                         type="checkbox"
                         className="h-4 w-4"
                         name={extra.name}
-                        onClick={(e) => handleExtraGradientChange(e, extra)}
+                        onChange={(e) => handleExtraGradientChange(e, extra)}
                       />
                       {extra.name} + ${extra.price}
                     </Label>

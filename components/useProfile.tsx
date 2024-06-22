@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 
+interface ProfileData {
+  admin: boolean;
+  city: string;
+  country: string;
+  phone: string;
+  postalCode: string;
+  streetAddress: string;
+}
 export default function useProfile() {
-  const [data, setData] = useState<{ admin: boolean } | null>(null);
+  const [data, setData] = useState<ProfileData | null>(null);
 
   const [loading, setLoading] = useState(true);
 

@@ -4,8 +4,8 @@ import "./globals.css";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 
-import AppProvider from "@/components/AppContext";
 import { Toaster } from "react-hot-toast";
+import { AppProvider } from "@/components/AppContext";
 const roboto = Roboto({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
 export const metadata: Metadata = {

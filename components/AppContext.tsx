@@ -1,89 +1,111 @@
 "use client";
 import { SessionProvider } from "next-auth/react";
-import { useState, createContext, useEffect } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
-interface ExtraGradient {
+interface Product {
+  id: string;
   name: string;
-  price: number;
-}
-export interface CartProduct {
-  image: string;
-  name: string;
-  description: string;
   basePrice: number;
-  extraGradientPrices: ExtraGradient[];
-  sizes: string[];
-  extras?: ExtraGradient[];
+  image: string;
+  size?: {
+    name: string;
+    price: number;
+  } | null;
+  extras?: {
+    name: string;
+    price: number;
+  }[];
 }
 
-export interface CartContextProps {
+interface CartProduct extends Product {
+  size: { name: string; price: number } | null;
+  extras: { name: string; price: number }[];
+}
+
+interface CartContextType {
   cartProducts: CartProduct[];
   setCartProducts: React.Dispatch<React.SetStateAction<CartProduct[]>>;
   addToCart: (
-    product: CartProduct,
-    size?: string,
-    extras?: ExtraGradient[]
+    product: Product,
+    size?: { name: string; price: number } | null,
+    extras?: { name: string; price: number }[]
   ) => void;
+  removeCartProduct: (indexToRemove: number) => void;
   clearCart: () => void;
-  removeCartProduct: (index: number) => void;
 }
 
-export const CartContext = createContext<CartContextProps>({
-  cartProducts: [],
-  setCartProducts: () => {},
-  addToCart: () => {},
-  clearCart: () => {},
-  removeCartProduct: () => {},
-});
+export const CartContext = createContext<CartContextType | undefined>(
+  undefined
+);
 
-export default function AppProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function cartProductPrice(cartProduct: CartProduct): number {
+  let price = cartProduct.basePrice;
+  if (cartProduct.size) {
+    price += cartProduct.size.price;
+  }
+  if (cartProduct.extras && cartProduct.extras.length > 0) {
+    for (const extra of cartProduct.extras) {
+      price += extra.price;
+    }
+  }
+  return price;
+}
+
+interface AppProviderProps {
+  children: ReactNode;
+}
+
+export function AppProvider({ children }: AppProviderProps) {
   const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
-  const storage = typeof window !== "undefined" ? window.localStorage : null;
+
+  const ls = typeof window !== "undefined" ? window.localStorage : null;
 
   useEffect(() => {
-    if (storage && storage.getItem("cart")) {
-      const cart = storage.getItem("cart");
-      if (cart) {
-        setCartProducts(JSON.parse(cart));
-      }
+    if (ls && ls.getItem("cart")) {
+      setCartProducts(JSON.parse(ls.getItem("cart") as string));
     }
-  }, [storage]);
+  }, [ls]);
 
-  function savingCartProducts(cartProducts: CartProduct[]) {
-    if (storage) {
-      storage.setItem("cart", JSON.stringify(cartProducts));
+  function clearCart() {
+    setCartProducts([]);
+    saveCartProductsToLocalStorage([]);
+  }
+
+  function removeCartProduct(indexToRemove: number) {
+    setCartProducts((prevCartProducts) => {
+      const newCartProducts = prevCartProducts.filter(
+        (v, index) => index !== indexToRemove
+      );
+      saveCartProductsToLocalStorage(newCartProducts);
+      return newCartProducts;
+    });
+    toast.success("Product removed");
+  }
+
+  function saveCartProductsToLocalStorage(cartProducts: CartProduct[]) {
+    if (ls) {
+      ls.setItem("cart", JSON.stringify(cartProducts));
     }
   }
 
   function addToCart(
-    product: CartProduct,
-    size: string = "",
-    extras: ExtraGradient[] = []
+    product: Product,
+    size: { name: string; price: number } | null = null,
+    extras: { name: string; price: number }[] = []
   ) {
+    const cartProduct: CartProduct = {
+      ...product,
+      size,
+      extras,
+    };
     setCartProducts((prevProducts) => {
-      const cartProduct = { ...product, size, extras };
       const newProducts = [...prevProducts, cartProduct];
-      savingCartProducts(newProducts);
+      saveCartProductsToLocalStorage(newProducts);
       return newProducts;
     });
   }
 
-  function clearCart() {
-    setCartProducts([]);
-    savingCartProducts([]);
-  }
-
-  function removeCartProduct(index: number) {
-    setCartProducts((prevProducts) => {
-      const newProducts = prevProducts.filter((_, i) => i !== index);
-      savingCartProducts(newProducts);
-      return newProducts;
-    });
-  }
   return (
     <SessionProvider>
       <CartContext.Provider
@@ -91,8 +113,8 @@ export default function AppProvider({
           cartProducts,
           setCartProducts,
           addToCart,
-          clearCart,
           removeCartProduct,
+          clearCart,
         }}
       >
         {children}
