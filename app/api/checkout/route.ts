@@ -3,9 +3,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { Order } from "@/models/order";
 import { MenuItem } from "@/models/menuItem";
+
 const stripe = require("stripe")(process.env.STRIPE_SK);
+
 export async function POST(req: Request) {
-  mongoose.connect(process.env.MONGODB_URL!);
+  mongoose.connect(process.env.MONGO_URL!);
 
   const { cartProducts, address } = await req.json();
   const session = await getServerSession(authOptions);
@@ -25,18 +27,19 @@ export async function POST(req: Request) {
 
     if (cartProduct.size) {
       const size = productInfo.sizes.find(
-        (size: any) => size._id.ToString() === cartProduct.size._id.toString()
+        (size: any) => size._id.toString() === cartProduct.size._id.toString()
       );
 
-      productPrice = size.price;
+      productPrice += size.price;
     }
 
     if (cartProduct.extras?.length > 0) {
       for (const cartProductExtraThing of cartProduct.extras) {
         const productExtras = productInfo.extraGradientPrices;
+        // console.log({ productExtras });
         const extraThingInfo: any = productExtras.find(
           (extra: { _id: string }) =>
-            extra._id.toString() === extraThingInfo._id.toString()
+            extra._id.toString() === cartProductExtraThing._id.toString()
         );
         productPrice += extraThingInfo.price;
       }
@@ -55,16 +58,22 @@ export async function POST(req: Request) {
     });
   }
 
-  // console.log(stripeLineItems);
-  return Response.json(null);
+  // console.log({ stripeLineItems });
 
   const stripeSession = await stripe.checkout.sessions.create({
     line_items: stripeLineItems,
     mode: "payment",
     customer_email: userEmail,
-    success_url: process.env.NEXTAUTH_URL + "cart?success=1",
+    success_url:
+      process.env.NEXTAUTH_URL +
+      "orders/" +
+      orderDoc._id.toString() +
+      "?clear-cart=1",
     cancel_url: process.env.NEXTAUTH_URL + "cart?canceled=1",
-    metadata: { orderId: orderDoc._id },
+    metadata: { orderId: orderDoc._id.toString() },
+    payment_intent_data: {
+      metadata: { orderId: orderDoc._id.toString() },
+    },
     shipping_options: [
       {
         shipping_rate_data: {

@@ -23,7 +23,7 @@ interface CartProduct extends Product {
   extras: { name: string; price: number }[];
 }
 
-interface CartContextType {
+export interface CartContextType {
   cartProducts: CartProduct[];
   setCartProducts: React.Dispatch<React.SetStateAction<CartProduct[]>>;
   addToCart: (

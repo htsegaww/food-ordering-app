@@ -12,7 +12,7 @@ interface AddressProps {
 
 interface AddressInputsProps {
   addressProps: AddressProps;
-  setAddressProp: (key: keyof AddressProps, value: string) => void;
+  setAddressProp: (propName: string, value: string) => void;
   disabled?: boolean;
 }
 

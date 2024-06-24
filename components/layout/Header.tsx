@@ -13,7 +13,7 @@ export default function Header() {
   const status = session?.status;
   const userData = session.data?.user;
   let userName = userData?.name || userData?.email;
-  const { cartProducts } = useContext(CartContext);
+  const { cartProducts } = useContext(CartContext) || { cartProducts: [] };
 
   if (userName?.includes(" ")) {
     userName = userName.split(" ")[0];
@@ -61,9 +61,11 @@ export default function Header() {
       <Link href="/cart" className=" relative flex items-center gap-2">
         <CgShoppingCart size={30} />
 
-        <span className="absolute -top-2 -right-3 bg-primary text-white text-xs rounded-full p-1 leading-3 ">
-          {cartProducts.length}
-        </span>
+        {cartProducts?.length > 0 && (
+          <span className="absolute -top-2 -right-3 bg-primary text-white text-xs rounded-full p-1 leading-3 ">
+            {cartProducts.length}
+          </span>
+        )}
       </Link>
     </header>
   );

@@ -1,10 +1,11 @@
 import { cartProductPrice } from "@/components/AppContext";
 
 import Image from "next/image";
-import { BiTrash } from "react-icons/bi";
-import { Button } from "../ui/button";
 
-export default function CartProduct({ product, onRemove }: any) {
+import { Button } from "../ui/button";
+import { Trash2 } from "lucide-react";
+
+export default function CartProduct({ product, onRemove, index }: any) {
   return (
     <div className="flex items-center gap-4 border-b py-4">
       <div className="w-24">
@@ -28,13 +29,16 @@ export default function CartProduct({ product, onRemove }: any) {
         )}
       </div>
       <div className="text-lg font-semibold">${cartProductPrice(product)}</div>
-      {!!onRemove && (
-        <div className="ml-2">
-          <Button type="button" onClick={() => onRemove(index)} className="p-2">
-            <BiTrash />
-          </Button>
-        </div>
-      )}
+
+      <div className="ml-2">
+        <Button
+          type="button"
+          onClick={() => onRemove(index)}
+          className="p-2 text-black"
+        >
+          <Trash2 />
+        </Button>
+      </div>
     </div>
   );
 }

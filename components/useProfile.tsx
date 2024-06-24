@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-interface ProfileData {
+export interface ProfileData {
   admin: boolean;
   city: string;
   country: string;
