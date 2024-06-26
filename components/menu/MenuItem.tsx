@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { CartContext, CartContextProps, CartProduct } from "../AppContext";
+
 import { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import MenuItemTile from "./MenuItemTile";
@@ -7,8 +7,10 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Size } from "../layout/MenuItemPriceProps";
 import { Button } from "../ui/button";
+import { CartContext } from "../AppContext";
 
 export interface ExtraGradient {
+  _id: string;
   name: string;
   price: number;
 }
@@ -31,7 +33,7 @@ const MenuItem: React.FC<MenuItemProps> = (menuItem) => {
   );
   const [selectedExtras, setSelectedExtras] = useState<ExtraGradient[]>([]);
   const [showPopup, setShowPopup] = useState(false);
-  const { addToCart } = useContext<CartContextProps>(CartContext);
+  const { addToCart }: any = useContext(CartContext);
 
   const handleAddToCart = () => {
     const hasOptions = sizes.length > 0 || extraGradientPrices.length > 0;
@@ -90,6 +92,7 @@ const MenuItem: React.FC<MenuItemProps> = (menuItem) => {
                 width="300"
                 height="300"
                 className="mx-auto"
+                priority
               />
               <h4 className="font-semibold text-4xl my-2 text-center">
                 {name}
@@ -110,7 +113,7 @@ const MenuItem: React.FC<MenuItemProps> = (menuItem) => {
                         type="radio"
                         name="size"
                         className="h-4 w-4"
-                        onClick={() => setSelectedSize(size)}
+                        onChange={() => setSelectedSize(size)}
                         checked={selectedSize?.name === size.name}
                       />
                       {size.name} ${basePrice + size.price}
@@ -133,6 +136,9 @@ const MenuItem: React.FC<MenuItemProps> = (menuItem) => {
                         className="h-4 w-4"
                         name={extra.name}
                         onChange={(e) => handleExtraGradientChange(e, extra)}
+                        checked={selectedExtras
+                          .map((e) => e._id)
+                          .includes(extra._id)}
                       />
                       {extra.name} + ${extra.price}
                     </Label>

@@ -7,11 +7,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/lib/db";
-import { AdapterUser } from "next-auth/adapters";
 
 export const authOptions: AuthOptions = {
-  secret: process.env.SECRET,
-  adapter: MongoDBAdapter(clientPromise) as any, // Temporary fix to bypass the type error
+  secret: process.env.SECRET_KEY!,
+  // adapter: MongoDBAdapter(clientPromise) as any, // Temporary fix to bypass the type error
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -28,7 +27,7 @@ export const authOptions: AuthOptions = {
         },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         const email = credentials?.email;
         const password = credentials?.password;
 
@@ -39,16 +38,15 @@ export const authOptions: AuthOptions = {
         await mongoose.connect(process.env.MONGO_URL!);
 
         const user = await User.findOne({ email });
-        if (!user) {
-          return null;
+        console.log(user);
+
+        const passwordOk =
+          user && (await bcrypt.compare(password, user.password));
+        if (passwordOk) {
+          return user;
         }
 
-        const passwordOk = await bcrypt.compare(password, user.password);
-        if (!passwordOk) {
-          return null;
-        }
-
-        return user;
+        return null;
       },
     }),
   ],

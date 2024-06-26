@@ -61,6 +61,7 @@ export default function MenuItemsPage() {
                     alt={""}
                     width={200}
                     height={200}
+                    priority
                   />
                 </div>
                 <div className="text-center">{item.name}</div>

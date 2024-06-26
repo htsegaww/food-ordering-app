@@ -41,9 +41,10 @@ export default function EditableImage({ link, setLink }: EditableImageProps) {
         <Image
           src={link}
           alt="profile"
-          width={250}
-          height={250}
-          className="rounded-lg w-full h-full"
+          width={0}
+          height={0}
+          className="rounded-lg w-full h-auto"
+          priority
         />
       )}
 
@@ -55,7 +56,7 @@ export default function EditableImage({ link, setLink }: EditableImageProps) {
       <label>
         <Input type="file" className="hidden" onChange={handleFileChange} />
         <span className="block border rounded-lg py-2 px-14 text-center cursor-pointer border-gray-300 mt-2 ">
-          Edit
+          Change Image
         </span>
       </label>
     </>

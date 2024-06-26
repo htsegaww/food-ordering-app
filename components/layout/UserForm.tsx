@@ -46,12 +46,13 @@ export default function UserForm({ user, onSave }: UserFormProps) {
   }
   return (
     <section className="mt-8">
-      <div className="flex gap-4 mt-8 max-w-2xl mx-auto ">
+      <div className="md:flex gap-4 max-w-2xl mx-auto ">
         <div className="flex items-start flex-col h-44 w-44">
           <EditableImage link={image} setLink={setImage} />
         </div>
 
         <form
+          className="mt-16"
           onSubmit={(e) => {
             e.preventDefault();
             onSave({

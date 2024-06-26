@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 
 export interface Size {
+  _id: string;
   name: string;
   price: number;
 }
@@ -26,7 +27,7 @@ export default function MenuItemPriceProps({
 
   function addProp() {
     setProps((oldProps) => {
-      return [...oldProps, { name: "", price: 0 }];
+      return [...oldProps, { _id: "", name: "", price: 0 }];
     });
   }
 

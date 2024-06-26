@@ -4,8 +4,8 @@ import { ArrowRightCircle } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="hero mt-24">
-      <div className="py-12 ">
+    <section className="hero md:mt-24">
+      <div className="md:py-12 py-8">
         <h1 className="text-4xl font-semibold">
           Everything <br />
           is better with <br />
@@ -24,13 +24,13 @@ export default function Hero() {
           </Button>
         </div>
       </div>
-      <div className="relative">
+      <div className="relative hidden md:block ">
         <Image
-          src="/hero.png"
+          src="/hero.jpg"
           alt="injera"
-          width="300"
-          height="300"
-          objectFit="contain"
+          width={300}
+          height={300}
+          style={{ width: "auto" }}
         />
       </div>
     </section>

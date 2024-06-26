@@ -31,6 +31,7 @@ export interface CartContextType {
     size?: { name: string; price: number } | null,
     extras?: { name: string; price: number }[]
   ) => void;
+
   removeCartProduct: (indexToRemove: number) => void;
   clearCart: () => void;
 }

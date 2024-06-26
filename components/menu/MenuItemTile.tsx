@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button } from "../ui/button";
+
 import { Size } from "../layout/MenuItemPriceProps";
 import { ExtraGradient } from "./MenuItem";
 import { AddToCartBtn } from "./AddToCartBtn";
@@ -31,6 +31,7 @@ export default function MenuItemTile({
           alt=""
           width="300"
           height="300"
+          priority
           className="max-h-32 block mx-auto"
         />
       </div>

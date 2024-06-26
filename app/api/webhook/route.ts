@@ -4,8 +4,8 @@ const stripe = require("stripe")(process.env.STRIPE_SK);
 
 export async function POST(req: Request) {
   const sig = req.headers.get("stripe-signature");
-
   let event;
+
   try {
     const reqBuffer = await req.text();
     const signingSecret = process.env.STRIPE_SIGNING_SECRET;
@@ -16,6 +16,7 @@ export async function POST(req: Request) {
   }
 
   if (event.type === "checkout.session.completed") {
+    console.log(event);
     const orderId = event?.data?.object?.metadata?.orderId;
     const isPaid = event?.data?.object?.payment_status === "paid";
 
