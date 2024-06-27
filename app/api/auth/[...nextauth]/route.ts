@@ -5,8 +5,6 @@ import { User } from "@/models/User";
 import NextAuth, { AuthOptions, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import clientPromise from "@/lib/db";
 
 export const authOptions: AuthOptions = {
   secret: process.env.SECRET_KEY!,
@@ -52,7 +50,7 @@ export const authOptions: AuthOptions = {
   ],
 };
 
-export async function isAdmin(): Promise<boolean> {
+export async function isAdmin() {
   const session = await getServerSession(authOptions);
   const userEmail = session?.user?.email;
   if (!userEmail) {
