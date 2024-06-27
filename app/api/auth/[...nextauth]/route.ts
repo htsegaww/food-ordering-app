@@ -2,13 +2,12 @@ import { UserInfo } from "@/models/UserInfo";
 import bcrypt from "bcrypt";
 import * as mongoose from "mongoose";
 import { User } from "@/models/User";
-import NextAuth, { AuthOptions, getServerSession } from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: AuthOptions = {
   secret: process.env.SECRET_KEY!,
-  // adapter: MongoDBAdapter(clientPromise) as any, // Temporary fix to bypass the type error
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
