@@ -113,7 +113,7 @@ export default function Categories() {
   }
 
   return (
-    <div className="mt-8 max-w-lg mx-auto">
+    <div className="mt-8 max-w-2xl mx-auto">
       <UserTabs isAdmin={true} />
       <form className="mt-8" onSubmit={handleSubmit}>
         <Label className="text-gray-500">
@@ -122,14 +122,14 @@ export default function Categories() {
             <strong className="text-md">: {editedCategory.name}</strong>
           )}
         </Label>
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex md:flex-row flex-col items-center justify-center gap-2">
           <Input
             type="text"
             value={categoryName}
             onChange={(e) => setCategoryName(e.target.value)}
           />
           <div className="flex gap-2">
-            <Button type="submit" className="px-6 bg-primary text-white">
+            <Button type="submit" className="px-6 bg-primary text-white ">
               {editedCategory ? "Update" : "Create"}
             </Button>
 
@@ -147,31 +147,34 @@ export default function Categories() {
         </div>
       </form>
       <div>
-        <h2 className="text-sm text-gray-500 mt-8">Existing Category</h2>
+        <h2 className="text-sm text-gray-500 mt-8 mb-2 ">Existing Category</h2>
         <ul>
           {categories?.length > 0 &&
             categories.map((category) => (
               <div
                 key={category._id}
-                className="border bg-gray-100 rounded-xl p-2 px-4 flex gap-1 mb-1 items-center"
+                className="border grid grid-cols-1 md:grid-cols-3 px-3 py-2 my-2 rounded-md bg-gray-100"
               >
-                <div className="grow">{category.name}</div>
-                <div className="flex gap-1 ">
-                  <Button
-                    type="button"
-                    className="flex cursor-pointer mb-1 w-full text-black border"
-                    onClick={() => {
-                      setEditedCategory(category);
-                      setCategoryName(category.name);
-                    }}
-                  >
-                    Edit
-                  </Button>
-
-                  <DeleteButton
-                    label={"Delete"}
-                    onDelete={() => DeleteCategory(category._id)}
-                  />
+                <div>{category.name}</div>
+                <div className="flex items-center mx-auto mt-2">
+                  <div className="flex items-center justify-center ">
+                    <Button
+                      type="button"
+                      className="text-center px-4 bg-primary text-white w-32"
+                      onClick={() => {
+                        setEditedCategory(category);
+                        setCategoryName(category.name);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  </div>
+                  <div>
+                    <DeleteButton
+                      label={"Delete"}
+                      onDelete={() => DeleteCategory(category._id)}
+                    />
+                  </div>
                 </div>
               </div>
             ))}

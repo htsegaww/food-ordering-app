@@ -9,6 +9,7 @@ import SectionHeaders from "@/components/layout/SectionHeaders";
 import CartProduct from "@/components/menu/CartProduct";
 import { Button } from "@/components/ui/button";
 import useProfile from "@/components/useProfile";
+import { useSession } from "next-auth/react";
 
 import { useContext, useState, useEffect } from "react";
 import toast from "react-hot-toast";
@@ -19,8 +20,9 @@ export default function CartPage() {
 
   const [address, setAddress] = useState({});
   const { data: profileData } = useProfile();
-
-  // console.log(profileData);
+  const session = useSession();
+  const user = session?.data?.user;
+  console.log(user);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -103,7 +105,7 @@ export default function CartPage() {
         <SectionHeaders mainHeader="Cart" subHeader="" />
       </div>
 
-      <div className="grid gap-8 grid-cols-2 mt-8">
+      <div className="grid gap-8 grid-cols-1 md:grid-cols-2 mt-8">
         <div>
           {cartProducts.length === 0 && <div>No Products in shopping cart</div>}
 
@@ -117,7 +119,7 @@ export default function CartPage() {
               />
             ))}
 
-          <div className="py-2 flex justify-end pr-16 items-center text-md gap-4">
+          <div className="py-2 flex justify-center md:justify-end pr-2 md:pr-16 items-center text-md gap-4">
             <div className="text-gray-500">
               subtotal: <br />
               Delivery: <br />
@@ -130,6 +132,7 @@ export default function CartPage() {
             </div>
           </div>
         </div>
+
         <div className="bg-gray-100 rounded-lg p-4">
           <h2>Checkout</h2>
           <form onSubmit={proceedToCheckout}>
@@ -137,9 +140,21 @@ export default function CartPage() {
               addressProps={address}
               setAddressProp={handleAddressChange}
             />
-            <Button className="bg-primary text-white w-full mt-4" type="submit">
-              Pay ${total}
-            </Button>
+            {user ? (
+              <Button
+                className="bg-primary text-white w-full mt-4"
+                type="submit"
+              >
+                Pay ${total}
+              </Button>
+            ) : (
+              <Button
+                className="bg-primary text-white w-full mt-4"
+                type="submit"
+              >
+                Login to checkout
+              </Button>
+            )}
           </form>
         </div>
       </div>

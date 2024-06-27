@@ -54,13 +54,13 @@ export default function MenuItemPriceProps({
   return (
     <div className="bg-gray-200 p-2 rounded-md mb-2 flex flex-col mt-2">
       <Button
-        className="inline-flex p-1 border-0 justify-start text-black"
+        className="inline-flex p-1 border-0 justify-start text-white"
         type="button"
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <ChevronUp /> : <ChevronDown />}
 
-        <span className="text-sm font-thin">{name}</span>
+        <span className="text-sm font-thin text-white">{name}</span>
         <span className="ml-2">({props?.length})</span>
       </Button>
       <div className={isOpen ? "block" : "hidden"}>

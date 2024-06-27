@@ -25,25 +25,25 @@ export default function HomeMenu() {
     });
   }, []);
   return (
-    <section>
+    <section className="mt-32">
       <div className="absolute left-0 right-0 w-full justify-start">
-        <div className="absolute -left-16 -top-[10px] text-left -z-10">
+        <div className="hidden md:block absolute -left-16 -top-[10px] text-left -z-10">
           <Image
-            src={"/salad2.jpg"}
+            src={"/fruit1.jpg"}
             width={409}
             height={189}
             alt={"salad"}
             style={{ width: "auto" }}
           />
         </div>
-        <div className="absolute -top-[10px] -right-16 -z-10">
+        <div className="hidden md:block absolute -top-[10px] -right-16 -z-10">
           <Image
-            src={"/salad1.jpg"}
+            src={"/fruit1.jpg"}
             width={409}
             height={195}
             alt={"salad"}
             priority
-            style={{ width: "auto" }}
+            className="object-cover w-full h-auto"
           />
         </div>
       </div>

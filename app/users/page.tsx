@@ -42,9 +42,11 @@ export default function Users() {
               key={user.email}
               className="bg-gray-100 rounded-lg mb-2 p-4 flex items-center gap-4"
             >
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 grow">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 grow">
                 <div className="text-gray-900">
-                  {!!user.name && <span>{user.name}</span>}
+                  {!!user.name && (
+                    <span className="font-semibold">{user.name}</span>
+                  )}
                   {!user.name && <span className="italic">No Name</span>}
                 </div>
                 <span>{user.email}</span>

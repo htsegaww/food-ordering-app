@@ -32,10 +32,10 @@ export default function MenuItemTile({
           width="300"
           height="300"
           priority
-          className="max-h-32 block mx-auto"
+          className="max-h-52 block mx-auto w-full object-cover rounded-md"
         />
       </div>
-      <h4 className="font-semibold text-4xl my-2">{name}</h4>
+      <h4 className="font-semibold text-4xl my-2 capitalize">{name}</h4>
       <p className="text-gray-500 text-sm line-clamp-3">{description}</p>
 
       <AddToCartBtn

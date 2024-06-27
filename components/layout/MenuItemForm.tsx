@@ -128,7 +128,12 @@ export default function MenuItemForm({
             props={extraGradientPrices}
             setProps={setExtraGradientPrices}
           />
-          <button type="submit">Save</button>
+          <button
+            type="submit"
+            className=" bg-primary text-white text-center py-2 px-4 rounded-tr-lg rounded-bl-lg border hover:bg-transparent hover:text-primary transition duration-300 ease-in-out hover:shadow-lg w-44"
+          >
+            Save
+          </button>
         </div>
       </div>
     </form>

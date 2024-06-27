@@ -2,7 +2,7 @@ import SectionHeaders from "./SectionHeaders";
 
 export default function Contact() {
   return (
-    <section id="contact">
+    <section id="contact" className="text-center md:py-32 py-44 mb-48">
       <SectionHeaders subHeader="Get in touch" mainHeader="Contact Us" />
 
       <div className="mt-8">

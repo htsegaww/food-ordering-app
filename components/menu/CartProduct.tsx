@@ -7,8 +7,8 @@ import { Trash2 } from "lucide-react";
 
 export default function CartProduct({ product, onRemove, index }: any) {
   return (
-    <div className="flex items-center gap-4 border-b py-4">
-      <div className="w-24">
+    <div className="flex flex-col md:flex-row items-center gap-4 border-b py-4">
+      <div className="w-36 ">
         <Image width={240} height={240} src={product.image} alt={""} />
       </div>
       <div className="grow">

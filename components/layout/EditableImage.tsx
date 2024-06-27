@@ -41,7 +41,7 @@ export default function EditableImage({ link, setLink }: EditableImageProps) {
         <Image
           src={link}
           alt="profile"
-          width={0}
+          width={200}
           height={0}
           className="rounded-lg w-full h-auto"
           priority
@@ -55,7 +55,7 @@ export default function EditableImage({ link, setLink }: EditableImageProps) {
       )}
       <label>
         <Input type="file" className="hidden" onChange={handleFileChange} />
-        <span className="block border rounded-lg py-2 px-14 text-center cursor-pointer border-gray-300 mt-2 ">
+        <span className="flex gap-2 bg-primary text-white py-2 px-4 rounded-tr-xl rounded-bl-xl border hover:bg-transparent hover:text-primary transition duration-300 ease-in-out hover:shadow-lg mt-2">
           Change Image
         </span>
       </label>

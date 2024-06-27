@@ -89,9 +89,9 @@ const MenuItem: React.FC<MenuItemProps> = (menuItem) => {
               <Image
                 src={image}
                 alt={name}
-                width="220"
+                width="200"
                 height="0"
-                className="mx-auto w-full h-auto "
+                className="mx-auto w-full h-full object-cover rounded-md"
                 priority
               />
               <h4 className="font-semibold text-4xl my-2 text-center">
