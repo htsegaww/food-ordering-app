@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 
 import { Order } from "@/models/order";
 import { MenuItem } from "@/models/menuItem";
-import authOptions from "../auth/authOptions";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 const stripe = require("stripe")(process.env.STRIPE_SK);
 
