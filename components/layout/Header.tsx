@@ -9,6 +9,7 @@ import { useContext, useState } from "react";
 import { CgShoppingCart } from "react-icons/cg";
 import { MenuIcon } from "lucide-react";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 interface AuthLinksProps {
   status: string;
@@ -25,7 +26,13 @@ function AuthLinks({ status, username }: AuthLinksProps) {
         >
           Hello, {username}
         </Link>
-        <Button onClick={() => signOut()} className="bg-primary text-white">
+        <Button
+          onClick={() => {
+            signOut();
+            redirect("/");
+          }}
+          className="bg-primary text-white"
+        >
           Logout
         </Button>
       </>
