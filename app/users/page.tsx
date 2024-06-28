@@ -2,7 +2,7 @@
 import UseProfile from "@/components/useProfile";
 import Loading from "@/components/layout/Loading";
 import UserTabs from "@/components/layout/UserTabs";
-import { Button } from "@/components/ui/button";
+
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
