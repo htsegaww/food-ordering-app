@@ -34,7 +34,7 @@ export default function CartProduct({ product, onRemove, index }: any) {
         <Button
           type="button"
           onClick={() => onRemove(index)}
-          className="p-2 text-black"
+          className="p-2 text-white"
         >
           <Trash2 />
         </Button>
